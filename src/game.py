@@ -1,9 +1,15 @@
+import shutil
+
+
 class Board:
     def __init__(self, dim):
         self.dim = dim
         self.board = [[0 for x in range(self.dim)] for i in range(self.dim)]
 
         self.playerTwo = False
+        self.playerColour = ['\033[92m', '\033[91m']
+        self.colourReset = '\033[0m'
+
         self.user_prompt = ""
         self._set_user_prompt()
 
@@ -16,7 +22,8 @@ class Board:
     def move(self, location):
         for row in self.board:
             if row[location - 1] == 0:
-                row[location - 1] = int(self.playerTwo) + 1
+                row[location - 1] = self.playerColour[self.playerTwo] + \
+                    str(int(self.playerTwo) + 1) + self.colourReset
                 break
 
         self.playerTwo = not self.playerTwo
@@ -41,9 +48,10 @@ class Board:
 game_board = Board(7)
 
 while (game_board.game_over == False):
+    terminal_size = shutil.get_terminal_size()
+    print(terminal_size.lines * "\n")
+
     print(game_board)
     print(game_board.location_labels)
 
     game_board.move(int(input(game_board.user_prompt)))
-
-    print("\n\n\n")
