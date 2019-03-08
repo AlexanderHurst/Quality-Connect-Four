@@ -213,38 +213,39 @@ class Board:
         return temp
 
 
-# create a game board with 7 spaces
-game_board = Board(7)
-# keep track of if the previous move failed and how
-move_success = 0
+if __name__ == "__main__":
+    # create a game board with 7 spaces
+    game_board = Board(7)
+    # keep track of if the previous move failed and how
+    move_success = 0
 
-# while the game is not over
-while (game_board.game_over == False):
-    # clear the terminal every move
+    # while the game is not over
+    while (game_board.game_over == False):
+        # clear the terminal every move
+        terminal_size = shutil.get_terminal_size()
+        print(terminal_size.lines * "\n")
+
+        # inform the user of input errors
+        if move_success == 1:
+            print("Please enter an integer")
+        if move_success == 2:
+            print("Make sure you enter a number between 1 and {0}".format(
+                game_board.dim))
+        if move_success == 3:
+            print("That column is full")
+
+        # show the game board to the user
+        # with column labels
+        print(game_board)
+        print(game_board.location_labels)
+
+        # get the user input and attempt to add it to the board
+        move_success = game_board.move(input(game_board.user_prompt))
+
+    # clear the terminal
     terminal_size = shutil.get_terminal_size()
     print(terminal_size.lines * "\n")
 
-    # inform the user of input errors
-    if move_success == 1:
-        print("Please enter an integer")
-    if move_success == 2:
-        print("Make sure you enter a number between 1 and {0}".format(
-            game_board.dim))
-    if move_success == 3:
-        print("That column is full")
-
-    # show the game board to the user
-    # with column labels
+    # print the board and winning information
     print(game_board)
-    print(game_board.location_labels)
-
-    # get the user input and attempt to add it to the board
-    move_success = game_board.move(input(game_board.user_prompt))
-
-# clear the terminal
-terminal_size = shutil.get_terminal_size()
-print(terminal_size.lines * "\n")
-
-# print the board and winning information
-print(game_board)
-print(game_board.user_prompt)
+    print(game_board.user_prompt)
